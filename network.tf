@@ -12,15 +12,13 @@ resource "google_compute_network" "vpc" {
 }
 
 resource "google_compute_subnetwork" "subnet" {
-  count = length(var.subnet_cidr)
-
-  name        = "vpc-${var.environment}-subnet-${count.index}"
-  description = "Subnet ${count.index} in ${var.environment}."
+  name        = "vpc-${var.environment}-subnet"
+  description = "VPC subnet in ${var.environment}."
   network     = google_compute_network.vpc.name
   region      = var.region
   #purpose = "INTERNAL_HTTPS_LOAD_BALANCER" (requires role; competes with log_config)
   #role = "ACTIVE" | "BACKUP"
-  ip_cidr_range = var.subnet_cidr[count.index]
+  ip_cidr_range = var.subnet_cidr
 
   log_config {
     aggregation_interval = var.aggregation_interval

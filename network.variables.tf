@@ -1,11 +1,12 @@
 variable "subnet_cidr" {
-  description = "List of CIDR blocks for subnets. Defaults to ['10.10.0.0/24','10.30.0.0/24','10.50.0.0/24']."
-  type        = list(string)
-  default = [
-    "10.10.0.0/24",
-    "10.30.0.0/24",
-    "10.50.0.0/24"
-  ]
+  description = "CIDR block for the subnet. Defaults to '10.10.0.0/24'."
+  type        = string
+  default     = "10.0.0.0/16"
+
+  validation {
+    condition     = can(cidrhost(var.subnet_cidr, 32))
+    error_message = "Invalid. Must be a valid IPv4 CIDR block, e.g. '10.0.0.0/16'."
+  }
 }
 
 variable "aggregation_interval" {
