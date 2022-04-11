@@ -8,12 +8,16 @@ terraform {
       source  = "hashicorp/google"
       version = ">= 4.16.0"
     }
+
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 1.7"
+    }
   }
 
   backend "gcs" {
     bucket      = "devops-assignment"
     credentials = "credentials.json"
-    #prefix      = "caiomartesilva@gmail.com"
   }
 }
 
@@ -22,4 +26,12 @@ provider "google" {
   region      = var.region
   zone        = var.zone
   credentials = file("credentials.json")
+}
+
+provider "kubernetes" {
+  host  = "https://${data.google_container_cluster.cluster.endpoint}"
+  token = data.google_client_config.provider.access_token
+  cluster_ca_certificate = base64decode(
+    data.google_container_cluster.cluster.master_auth[0].cluster_ca_certificate,
+  )
 }

@@ -6,10 +6,11 @@ author = {
   ip      = "189.0.90.112/32"
 }
 
-region      = "europe-west1"
-zone        = "europe-west1-d"
-project     = "evbox-infrastructure"
-environment = "prod"
+project    = "evbox-infrastructure"
+region     = "europe-west-1"
+zone       = "europe-west1-d"
+network    = "default"
+subnetwork = "default"
 
 ip_ranges = {
   network  = "10.10.0.0/16"
@@ -18,25 +19,23 @@ ip_ranges = {
   master   = "10.70.0.0/28"
 }
 
-# NETWORK
-aggregation_interval = "INTERVAL_1_MIN"
-
 # CLUSTER
 cluster_resources = {
-  cpu_min    = 1
-  cpu_max    = 1
-  memory_min = 1
-  memory_max = 1
+  cpu_min    = 2
+  cpu_max    = 6
+  memory_min = 2
+  memory_max = 6
 }
 
+# CLUSTER NODE POOL
 node_count = {
-  min = 1
-  max = 5
+  min = 3
+  max = 9
 }
 
 node_availability = {
   surge       = 1
-  unavailable = 0
+  unavailable = 6
 }
 
 node_disk = {
@@ -44,5 +43,5 @@ node_disk = {
   size = 10
 }
 
-node_machine = "e2-medium"
+node_machine = "n1-standard-1"
 node_image   = "COS_CONTAINERD"

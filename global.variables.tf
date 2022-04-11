@@ -13,6 +13,12 @@ variable "author" {
   }
 }
 
+variable "project" {
+  description = "Default GCP project resources are associated with. Defaults to 'evbox-infrastructure'."
+  type        = string
+  default     = "evbox-infrastructure"
+}
+
 variable "region" {
   description = "Default location regional resources are deployed to. Defaults to 'europe-west1'."
   type        = string
@@ -25,25 +31,16 @@ variable "zone" {
   default     = "europe-west1-d"
 }
 
-variable "project" {
-  description = "Default GCP project resources are associated with. Defaults to 'evbox-infrastructure'."
+variable "network" {
+  description = "Default VPC resources are deployed to. Defaults to 'default'."
   type        = string
-  default     = "evbox-infrastructure"
+  default     = "default"
 }
 
-variable "environment" {
-  description = "Environment resources are deployed to. Must be either 'dev', 'stg', or 'prod'. Defaults to 'dev'."
+variable "subnetwork" {
+  description = "Default VPC subnetwork resources are deployed to. Defaults to 'default'."
   type        = string
-  default     = "dev"
-
-  validation {
-    condition = contains([
-      "dev",
-      "stg",
-      "prod"
-    ], var.environment)
-    error_message = "Invalid. Must be either 'dev', 'stg', or 'prod'."
-  }
+  default     = "default"
 }
 
 variable "ip_ranges" {
