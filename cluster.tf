@@ -6,10 +6,12 @@
 # Harden your cluster's security - https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster
 # Configuring Cloud Operations for GKE - https://cloud.google.com/stackdriver/docs/solutions/gke/installing#controlling_the_collection_of_application_logs
 # Using Cloud DNS for GKE - https://cloud.google.com/kubernetes-engine/docs/how-to/cloud-dns
+# container_node_pool resource - https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool
+# Provision a GKE Cluster (Google Cloud) - https://learn.hashicorp.com/tutorials/terraform/gke
 
 resource "google_container_cluster" "cluster" {
-  name                        = "cluster-${var.environment}"
-  description                 = "Regional cluster in ${var.environment}."
+  name                        = "${lower(var.author.name)}-${var.environment}-cluster"
+  description                 = "${title(var.author.name)}'s regional, VPC-native cluster in ${var.environment}."
   location                    = var.region
   remove_default_node_pool    = true
   initial_node_count          = 1
@@ -17,47 +19,25 @@ resource "google_container_cluster" "cluster" {
   subnetwork                  = google_compute_subnetwork.subnet.name
   enable_binary_authorization = true
   enable_shielded_nodes       = true
+  networking_mode             = "VPC_NATIVE"
   #enable_autopilot = true #Managed nodes # https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview#comparison
-  networking_mode = "VPC_NATIVE"
 
   ip_allocation_policy {
     cluster_ipv4_cidr_block  = var.ip_ranges.pods
     services_ipv4_cidr_block = var.ip_ranges.services
   }
 
-  #addons_config {
-  #horizontal_pod_autoscaling {
-  #  disabled = false #default
-  #}
-  #http_load_balancing {
-  #  disabled = false #default
-  #}
-  #cloudrun_config {    # Fully managed, serverless platform
-  #  disabled           = false
-  #  load_balancer_type = "LOAD_BALANCER_TYPE_INTERLA" | "LOAD_BALANCER_TYPE_EXTERNAL"
-  #}
-  #}
-
   cluster_autoscaling {
     enabled = true
     resource_limits {
       resource_type = "cpu"
-      minimum       = 1
-      #maximum       = 0
+      minimum       = var.cluster_resources.cpu_min
+      maximum       = var.cluster_resources.cpu_max
     }
     resource_limits {
       resource_type = "memory"
-      minimum       = 1
-      #maximum = 0
-    }
-    auto_provisioning_defaults {
-      oauth_scopes = [
-        "https://www.googleapis.com/auth/logging.write",
-        "https://www.googleapis.com/auth/monitoring",
-        "https://www.googleapis.com/auth/devstorage.read_only"
-      ]
-      #service_account = 
-      #image_type = "COS_CONTAINERD" | "COS_UBUNTU_CONTAINERD"
+      minimum       = var.cluster_resources.memory_min
+      maximum       = var.cluster_resources.memory_max
     }
   }
 
@@ -111,8 +91,8 @@ resource "google_container_cluster" "cluster" {
 
   master_authorized_networks_config {
     cidr_blocks {
-      cidr_block   = "189.0.90.112/32" #My IP
-      display_name = "Caio's personal computer"
+      cidr_block   = var.author.ip
+      display_name = "${title(var.author.name)}'s IP address."
     }
   }
 
@@ -120,5 +100,59 @@ resource "google_container_cluster" "cluster" {
     cluster_dns        = "CLOUD_DNS"
     cluster_dns_scope  = "CLUSTER_SCOPE"
     cluster_dns_domain = var.environment
+  }
+}
+
+resource "google_container_node_pool" "node_pool" {
+  name     = "${lower(var.author.name)}-${var.environment}-cluster-node-pool"
+  location = var.region
+  cluster  = google_container_cluster.cluster.name
+
+  autoscaling {
+    min_node_count = var.node_count.min
+    max_node_count = var.node_count.max
+  }
+
+  node_config {
+    disk_size_gb      = var.node_disk.size
+    disk_type         = var.node_disk.type
+    image_type        = var.node_image
+    machine_type      = var.node_machine
+    boot_disk_kms_key = google_kms_crypto_key.key.name
+
+    labels = {
+      env = var.environment
+    }
+
+    metadata = {
+      disable-legacy-endpoints = "true"
+    }
+
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/devstorage.read_only"
+    ]
+
+    shielded_instance_config {
+      enable_secure_boot          = true
+      enable_integrity_monitoring = true
+    }
+
+    workload_metadata_config {
+      mode = "GCE_METADATA"
+    }
+
+    tags = local.tags
+  }
+
+  upgrade_settings {
+    max_surge       = var.node_availability.surge
+    max_unavailable = var.node_availability.unavailable
+  }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
   }
 }

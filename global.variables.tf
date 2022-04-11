@@ -1,3 +1,18 @@
+variable "author" {
+  description = "Author's signature. Cannot be changed."
+  type = object({
+    name    = string
+    surname = string
+    email   = string
+    ip      = string
+  })
+
+  validation {
+    condition     = title(var.author.name) == "Caio" && title(var.author.surname) == "Martinho" && lower(var.author.email) == "caiomartesilva@gmail.com"
+    error_message = "This project belongs to Caio Martinho - caiomartesilva@gmail.com, and this values shall not be changed."
+  }
+}
+
 variable "region" {
   description = "Default location regional resources are deployed to. Defaults to 'europe-west1'."
   type        = string

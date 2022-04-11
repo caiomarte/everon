@@ -3,8 +3,8 @@
 # google_compute_subnetwork resource (https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork)
 
 resource "google_compute_network" "vpc" {
-  name                    = "vpc-${var.environment}"
-  description             = "VPC network in ${var.environment}."
+  name                    = "${lower(var.author.name)}-${var.environment}-vpc"
+  description             = "${title(var.author.name)}'s VPC network in ${var.environment}."
   auto_create_subnetworks = false
   #delete_default_routes_on_create =  true | false
   #routing_mode = "REGIONAL" | "GLOBAL"
@@ -12,8 +12,8 @@ resource "google_compute_network" "vpc" {
 }
 
 resource "google_compute_subnetwork" "subnet" {
-  name        = "vpc-${var.environment}-subnet"
-  description = "VPC subnet in ${var.environment}."
+  name        = "${lower(var.author.name)}-${var.environment}-vpc-subnet"
+  description = "${title(var.author.name)}'s VPC subnet in ${var.environment}."
   network     = google_compute_network.vpc.name
   region      = var.region
   #purpose = "INTERNAL_HTTPS_LOAD_BALANCER" (requires role; competes with log_config)
