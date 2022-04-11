@@ -45,3 +45,11 @@ node_disk = {
 
 node_machine = "n1-standard-1"
 node_image   = "COS_CONTAINERD"
+
+# APPLICATION
+application = {
+  image    = "hello"
+  repo     = "nginxdemos"
+  port     = 3000
+  replicas = 3
+}

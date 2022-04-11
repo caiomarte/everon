@@ -1,6 +1,8 @@
 # References:
 # Backend Types - GCS (https://www.terraform.io/language/settings/backends/gcs)
 # Google Provider Configuration Reference (https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#configuration-reference)
+# Kubernetes Provider (https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs)
+# Helm Provider (https://registry.terraform.io/providers/hashicorp/helm/latest/docs)
 
 terraform {
   required_providers {
@@ -12,6 +14,11 @@ terraform {
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = ">= 1.7"
+    }
+
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">=1.14.0"
     }
   }
 
@@ -29,9 +36,19 @@ provider "google" {
 }
 
 provider "kubernetes" {
-  host  = "https://${data.google_container_cluster.cluster.endpoint}"
+  host  = "https://${google_container_cluster.cluster.endpoint}"
   token = data.google_client_config.provider.access_token
   cluster_ca_certificate = base64decode(
-    data.google_container_cluster.cluster.master_auth[0].cluster_ca_certificate,
+    google_container_cluster.cluster.master_auth[0].cluster_ca_certificate,
   )
+}
+
+provider "helm" {
+  kubernetes {
+    host  = "https://${google_container_cluster.cluster.endpoint}"
+    token = data.google_client_config.provider.access_token
+    cluster_ca_certificate = base64decode(
+      google_container_cluster.cluster.master_auth[0].cluster_ca_certificate,
+    )
+  }
 }

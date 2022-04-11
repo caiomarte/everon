@@ -16,31 +16,26 @@ variable "author" {
 variable "project" {
   description = "Default GCP project resources are associated with. Defaults to 'evbox-infrastructure'."
   type        = string
-  default     = "evbox-infrastructure"
 }
 
 variable "region" {
   description = "Default location regional resources are deployed to. Defaults to 'europe-west1'."
   type        = string
-  default     = "europe-west1"
 }
 
 variable "zone" {
   description = "Default location zonal resources are deployed to. Defaults to 'europe-west1-d'."
   type        = string
-  default     = "europe-west1-d"
 }
 
 variable "network" {
   description = "Default VPC resources are deployed to. Defaults to 'default'."
   type        = string
-  default     = "default"
 }
 
 variable "subnetwork" {
   description = "Default VPC subnetwork resources are deployed to. Defaults to 'default'."
   type        = string
-  default     = "default"
 }
 
 variable "ip_ranges" {
