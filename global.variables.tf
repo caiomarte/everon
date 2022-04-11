@@ -32,20 +32,23 @@ variable "environment" {
 }
 
 variable "ip_ranges" {
+  description = "CIDR blocks for VPC subnetwork, pods, services, and cluster master, one for each. They cannot overlap. Cluster master's must be /28. Defaults to {network='10.10.0.0/16' pods='10.30.0.0/16' services='10.50.0.0/16' master='10.70.0.0/28'}."
   type = object({
     network  = string
     pods     = string
     services = string
+    master   = string
   })
 
   default = {
     network  = "10.10.0.0/16"
     pods     = "10.30.0.0/16"
     services = "10.50.0.0/16"
+    master   = "10.70.0.0/28"
   }
 
   validation {
-    condition     = can(cidrhost(var.ip_ranges.network, 32)) && can(cidrhost(var.ip_ranges.pods, 32)) && can(cidrhost(var.ip_ranges.services, 32)) && var.ip_ranges.network != var.ip_ranges.pods && var.ip_ranges.network != var.ip_ranges.services && var.ip_ranges.pods != var.ip_ranges.services
-    error_message = "Invalid. Must be 3 valid CIDR blocks, e.g. 10.0.0.0/16."
+    condition     = can(cidrhost(var.ip_ranges.network, 32)) && can(cidrhost(var.ip_ranges.pods, 32)) && can(cidrhost(var.ip_ranges.services, 32)) && can(regex("^([0-9]{1,3}\\.){3}[0-9]{1,3}($|/(28))$", var.ip_ranges.master)) && cidrhost(var.ip_ranges.network, 0) != cidrhost(var.ip_ranges.pods, 0) && cidrhost(var.ip_ranges.network, 0) != cidrhost(var.ip_ranges.services, 0) && cidrhost(var.ip_ranges.network, 0) != cidrhost(var.ip_ranges.master, 0) && cidrhost(var.ip_ranges.pods, 0) != cidrhost(var.ip_ranges.services, 0) && cidrhost(var.ip_ranges.pods, 0) != cidrhost(var.ip_ranges.master, 0) && cidrhost(var.ip_ranges.services, 0) != cidrhost(var.ip_ranges.master, 0)
+    error_message = "Invalid. Must be 4 valid CIDR blocks that DO NOT overlap. Cluster master's must be /28. E.g. {network='10.10.0.0/16' pods='10.30.0.0/16' services='10.50.0.0/16' master='10.70.0.0/28'}."
   }
 }

@@ -18,7 +18,7 @@ resource "google_compute_subnetwork" "subnet" {
   region      = var.region
   #purpose = "INTERNAL_HTTPS_LOAD_BALANCER" (requires role; competes with log_config)
   #role = "ACTIVE" | "BACKUP"
-  ip_cidr_range = var.subnet_cidr
+  ip_cidr_range = var.ip_ranges.network
 
   log_config {
     aggregation_interval = var.aggregation_interval

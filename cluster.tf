@@ -97,7 +97,7 @@ resource "google_container_cluster" "cluster" {
   private_cluster_config {
     enable_private_nodes    = true
     enable_private_endpoint = false
-    master_ipv4_cidr_block  = "10.70.0.0/28"
+    master_ipv4_cidr_block  = var.ip_ranges.master
     master_global_access_config {
       enabled = true
     }
@@ -115,10 +115,6 @@ resource "google_container_cluster" "cluster" {
       display_name = "Caio's personal computer"
     }
   }
-
-  #workload_identity_config {
-  #  workload_pool = "${data.google_project.project.project_id}.svc.id.goog"
-  #}
 
   dns_config {
     cluster_dns        = "CLOUD_DNS"
