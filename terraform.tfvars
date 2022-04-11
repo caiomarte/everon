@@ -21,10 +21,10 @@ ip_ranges = {
 
 # CLUSTER
 cluster_resources = {
-  cpu_min    = 2
-  cpu_max    = 6
-  memory_min = 2
-  memory_max = 6
+  cpu_min    = 200
+  cpu_max    = 600
+  memory_min = 200
+  memory_max = 600
 }
 
 # CLUSTER NODE POOL

@@ -4,12 +4,9 @@ metadata:
   name: {{ .Values.name }}
   labels:
     app: {{ .Values.name }}
-    app.kubernetes.io/name: {{ .Values.name }}
-    app.kubernetes.io/managed-by: {{ .Values.manager }}
-    app.kubernetes.io/created-by: {{ .Values.author }}
   namespace: {{ .Values.namespace }}
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       app: {{ .Values.name }}
@@ -22,9 +19,6 @@ spec:
     metadata:
       labels:
         app: {{ .Values.name }}
-        app.kubernetes.io/name: {{ .Values.name }}
-        app.kubernetes.io/managed-by: {{ .Values.manager }}
-        app.kubernetes.io/created-by: {{ .Values.author }}
     spec:
       containers:
       - image: {{ .Values.image }}
@@ -33,11 +27,3 @@ spec:
         ports:
         - containerPort: {{ .Values.port }}
           protocol: TCP
-        #livenessProbe:
-        #  httpGet:
-        #    path: /
-        #    port: http
-        #readinessProbe:
-        #  httpGet:
-        #    path: /
-        #    port: http

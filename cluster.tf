@@ -94,6 +94,6 @@ resource "google_container_cluster" "cluster" {
   #dns_config {
   #  cluster_dns        = "CLOUD_DNS"
   #  cluster_dns_scope  = "CLUSTER_SCOPE"
-  #  cluster_dns_domain = lower(var.author.name)
+  #  cluster_dns_domain = google_dns_managed_zone.zone.dns_name
   #}
 }

@@ -1,8 +1,8 @@
 locals {
-  app_name    = "${lower(var.author.name)}-${var.application.image}"
+  app_name    = "${lower(var.author.name)}-${lower(var.application.repo)}-${var.application.image}"
   app_author  = "${lower(var.author.name)}-${lower(var.author.surname)}"
   app_manager = "Terraform"
-  app_image   = "${lower(var.application.repo)}/${lower(var.application.image)}"
+  app_image   = "${lower(var.application.repo)}/${lower(var.application.image)}:latest"
 
   values = {
     name      = local.app_name
