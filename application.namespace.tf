@@ -3,11 +3,11 @@
 
 resource "kubernetes_namespace" "app_namespace" {
   metadata {
-    name = "${local.app_name}-namespace"
+    name = "caio-hello-namespace"
     labels = {
-      "app.kubernetes.io/name"       = local.app_name
-      "app.kubernetes.io/managed-by" = local.app_manager
-      "app.kubernetes.io/created-by" = local.app_author
+      "app.kubernetes.io/name"       = "${lower(var.author.name)}-${local.values["name"]}"
+      "app.kubernetes.io/managed-by" = local.values["manager"]
+      "app.kubernetes.io/created-by" = local.values["author"]
     }
   }
 }

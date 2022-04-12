@@ -4,14 +4,14 @@
 # dynamic Blocks (https://www.terraform.io/language/expressions/dynamic-blocks)
 
 resource "helm_release" "hello" {
-  name              = local.app_name
-  description       = "${title(var.author.name)}'s Helm Chart for the ${var.application.repo}/${var.application.image}:latest image."
-  chart             = "./application"
-  namespace         = kubernetes_namespace.app_namespace.metadata[0].name
-  reset_values      = true
-  cleanup_on_fail   = true
-  atomic            = true
-  dependency_update = true
+  name             = local.values["name"]
+  description      = "${title(var.author.name)}'s Helm Chart for the ${local.values["image"]} image."
+  chart            = "./application"
+  namespace        = local.values["namespace"]
+  create_namespace = true
+  reset_values     = true
+  cleanup_on_fail  = true
+  atomic           = true
 
   dynamic "set" {
     for_each = local.values

@@ -17,6 +17,13 @@ resource "google_container_cluster" "cluster" {
   initial_node_count       = 1
   network                  = var.network
   subnetwork               = var.subnetwork
+
+  #dns_config {
+  #  cluster_dns        = "CLOUD_DNS"
+  #  cluster_dns_scope  = "CLUSTER_SCOPE"
+  #  cluster_dns_domain = google_dns_managed_zone.zone.dns_name
+  #}
+
   #enable_binary_authorization = true
   #enable_shielded_nodes       = true
   #networking_mode             = "VPC_NATIVE"
@@ -89,11 +96,5 @@ resource "google_container_cluster" "cluster" {
   #    cidr_block   = var.author.ip
   #    display_name = "${title(var.author.name)}'s IP address."
   #  }
-  #}
-
-  #dns_config {
-  #  cluster_dns        = "CLOUD_DNS"
-  #  cluster_dns_scope  = "CLUSTER_SCOPE"
-  #  cluster_dns_domain = google_dns_managed_zone.zone.dns_name
   #}
 }

@@ -1,8 +1,8 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ .Values.name }}
+  name: hello
 spec:
   backend:
-    serviceName: {{ .Values.name }}
+    serviceName: hello
     servicePort: 80

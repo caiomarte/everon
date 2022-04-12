@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.name }}
+  name: hello
   labels:
-    app: {{ .Values.name }}
-  namespace: {{ .Values.namespace }}
+    app: hello
+  namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      app: hello
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -18,12 +18,12 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        app: hello
     spec:
       containers:
-      - image: {{ .Values.image }}
+      - image: nginxdemos/hello:latest
         imagePullPolicy: Always
-        name: {{ .Values.name }}
+        name: hello
         ports:
-        - containerPort: {{ .Values.port }}
+        - containerPort: 3000
           protocol: TCP
