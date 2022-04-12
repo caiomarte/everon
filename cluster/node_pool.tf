@@ -1,7 +1,8 @@
 resource "google_container_node_pool" "node_pool" {
-  name     = "${lower(var.author.name)}-cluster-node-pool"
-  location = var.zone
-  cluster  = google_container_cluster.cluster.name
+  name               = "${lower(var.author.name)}-cluster-node-pool"
+  location           = var.zone
+  cluster            = google_container_cluster.cluster.name
+  initial_node_count = var.node_count.min
 
   autoscaling {
     min_node_count = var.node_count.min
