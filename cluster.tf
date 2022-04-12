@@ -18,21 +18,31 @@ resource "google_container_cluster" "cluster" {
   network                  = var.network
   subnetwork               = var.subnetwork
 
-  #dns_config {
-  #  cluster_dns        = "CLOUD_DNS"
-  #  cluster_dns_scope  = "CLUSTER_SCOPE"
-  #  cluster_dns_domain = google_dns_managed_zone.zone.dns_name
-  #}
+  dns_config {
+    cluster_dns        = "CLOUD_DNS"
+    cluster_dns_scope  = "CLUSTER_SCOPE"
+    cluster_dns_domain = google_dns_managed_zone.zone.dns_name
+  }
 
-  #enable_binary_authorization = true
-  #enable_shielded_nodes       = true
-  #networking_mode             = "VPC_NATIVE"
-  #enable_autopilot = true #Managed nodes # https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview#comparison
-
+  #networking_mode          = "VPC_NATIVE"
   #ip_allocation_policy {
   #  cluster_ipv4_cidr_block  = var.ip_ranges.pods
   #  services_ipv4_cidr_block = var.ip_ranges.services
   #}
+
+  #private_cluster_config {
+  #  enable_private_nodes    = false
+  #  enable_private_endpoint = false
+  #  master_ipv4_cidr_block  = var.ip_ranges.master
+  #  master_global_access_config {
+  #    enabled = true
+  #  }
+  #}
+
+  #enable_binary_authorization = true
+  #enable_shielded_nodes       = true
+
+  #enable_autopilot = true #Managed nodes # https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview#comparison
 
   #cluster_autoscaling {
   #  enabled = true
@@ -48,16 +58,11 @@ resource "google_container_cluster" "cluster" {
   #  }
   #}
 
-  #vertical_pod_autoscaling {
-  #  enabled = true
-  #}
-
   #enable_intranode_visibility = true
   #logging_service             = "logging.googleapis.com/kubernetes"
   #logging_config {
   #  enable_components = [
-  #    "SYSTEM_COMPONENTS",
-  #    "WORKLOADS"
+  #    "SYSTEM_COMPONENTS"
   #  ]
   #}
 
@@ -66,23 +71,6 @@ resource "google_container_cluster" "cluster" {
   #  enable_components = [
   #    "SYSTEM_COMPONENTS"
   #  ]
-  #}
-
-  #maintenance_policy {
-  #  recurring_window {
-  #    start_time = "2022-04-10T03:00:00Z"
-  #    end_time   = "2022-04-10T05:00:00Z"
-  #    recurrence = "FREQ=WEEKLY;BYDAY=SA,SU"
-  #  }
-  #}
-
-  #private_cluster_config {
-  #  enable_private_nodes    = true
-  #  enable_private_endpoint = false
-  #  master_ipv4_cidr_block  = var.ip_ranges.master
-  #  master_global_access_config {
-  #    enabled = true
-  #  }
   #}
 
   #master_auth {
