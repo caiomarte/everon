@@ -23,7 +23,7 @@ This Terraform module deploys
 | `node_disk` | Type and size of the disk attached to each node. Type must be either `"pd-standard"`, `"pd-balanced"`, or `"pd-ssd"`. Size must be >= 10, specified in GB. | `object({`<br />`type=string`<br />`size=number`<br />`})` | `{`<br />`type="pd-standard"`<br />`size=500`<br />`}` | <span style="color: green">Optional</span> |
 | `node_machine` | Default Google Compute Engine machine type for the cluster's node pool. Check [About machine families](https://cloud.google.com/compute/docs/machine-types) for valid machine types. | `string` | `"e2-medium"` | <span style="color: green">Optional</span> |
 | `node_image` | Default image type for the cluster's node pool. Must be either `"COS_CONTAINERD"` or `"UBUNTU_CONTAINERD"`. | `string` | `"COS_CONTAINERD"` | <span style="color: green">Optional</span> |
-| `application` | Application's Docker image name, source repository, port number, and replica count. | `object({`<br />`image=string`<br />`repo=string`<br />`port=number`<br />`replicas=number`<br />`})` | N/A | <span style="color: red">Required</span> |
+| `application` | Application's Docker image name, source repository, version, port number, and replica count. | `object({`<br />`image=string`<br />`repo=string`<br />` version=string`<br />`port=number`<br />`replicas=number`<br />`})` | N/A | <span style="color: red">Required</span> |
 
 ### Example
 ```hlc

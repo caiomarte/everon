@@ -13,11 +13,11 @@ spec:
   selector:
     matchLabels:
       app: {{ .Values.name }}
-  #strategy:
-  #  rollingUpdate:
-  #    maxSurge: 25%
-  #    maxUnavailable: 25%
-  #  type: RollingUpdate
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -25,8 +25,8 @@ spec:
     spec:
       containers:
       - name: {{ .Values.name }}
-        image: {{ .Values.image }}
-        #imagePullPolicy: Always
+        image: "{{ .Values.image }}:{{ .Values.version }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: {{ .Values.port }}
-          #protocol: TCP
+          protocol: TCP

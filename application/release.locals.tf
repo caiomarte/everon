@@ -1,7 +1,8 @@
 locals {
   values = {
     name      = var.application.image
-    image     = "${var.application.repo}/${var.application.image}:latest"
+    image     = "${var.application.repo}/${var.application.image}"
+    version   = var.application.version
     namespace = "${var.application.image}-namespace"
     replicas  = var.application.replicas
     port      = var.application.port
