@@ -1,10 +1,12 @@
 # nginxdemos/hello:latest in zonal GKE cluster
 This Terraform module deploys
 - A zonal, VPC-native GKE cluster
-- A DNS zone to expose the GKE cluster
 - A GKE node pool with autoscaling and shielding
 - A Helm Chart for the `nginxdemos/hello:latest` Docker image, including deployment, service, and ingress
+- A DNS zone and A record to expose the underlying GKE cluster
+
 ---
+
 ## Usage
 ### Input Variables
 | Name | Description | Type | Default | Required |
@@ -26,60 +28,56 @@ This Terraform module deploys
 ### Example
 ```hlc
 module "everon" {
-    source = "everon"
+  source = "./everon"
 
-    # GLOBAL
-    project    = "evbox-infrastructure"
-    region     = "europe-west-1"
-    zone       = "europe-west1-d"
-    network    = "default"
-    subnetwork = "default"
+  # GLOBAL
+  project    = var.project
+  region     = var.region
+  zone       = var.zone
+  network    = var.network
+  subnetwork = var.subnetwork
+  ip_ranges  = var.ip_ranges
 
-    ip_ranges = {
-        network  = "10.10.0.0/16"
-        pods     = "10.30.0.0/16"
-        services = "10.50.0.0/16"
-        master   = "10.70.0.0/28"
-    }
+  # CLUSTER
+  cluster_resources = var.cluster_resources
 
-    # CLUSTER
-    cluster_resources = {
-        cpu_min    = 200
-        cpu_max    = 600
-        memory_min = 200
-        memory_max = 600
-    }
+  # CLUSTER NODE POOL
+  node_count        = var.node_count
+  node_availability = var.node_availability
+  node_disk         = var.node_disk
+  node_machine      = var.node_machine
+  node_image        = var.node_image
 
-    # CLUSTER NODE POOL
-    node_count = {
-        min = 3
-        max = 9
-    }
-
-    node_availability = {
-        surge       = 1
-        unavailable = 6
-    }
-
-    node_disk = {
-        type = "pd-standard"
-        size = 10
-    }
-
-    node_machine = "n1-standard-1"
-    node_image   = "COS_CONTAINERD"
-
-    # APPLICATION
-    application = {
-        image    = "hello"
-        repo     = "nginxdemos"
-        port     = 3000
-        replicas = 3
-    }
+  # APPLICATION
+  application = var.application
 }
 ```
 
 ### Outputs
 | Name | Description |
 |------|-------------|
-| `cluster_endpoint` | GKE cluster's endpoint. |
+| `endpoint` | The IP address of the GKE cluster's Kubernetes master. |
+| `link` | The server-defined URL for the GKE cluster. |
+
+---
+
+## References
+- [Backend Types - GCS](https://www.terraform.io/language/settings/backends/gcs)
+- [Google Provider Configuration Reference](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#configuration-reference)
+- [Kubernetes Provider](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs)
+- [Helm Provider](https://registry.terraform.io/providers/hashicorp/helm/latest/docs)
+- [google_container_cluster resource](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster)
+- [GKE best practices: Designing and building highly available clusters](https://cloud.google.com/blog/products/containers-kubernetes/best-practices-for-creating-a-highly-available-gke-cluster)
+- [Using node auto-provisioning](https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-provisioning)
+- [Configuring Cloud Operations for GKE](https://cloud.google.com/stackdriver/docs/solutions/gke/installing#controlling_the_collection_of_application_logs)
+- [Using Cloud DNS for GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/cloud-dns)
+- [container_node_pool resource](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool)
+- [Provision a GKE Cluster (Google Cloud)](https://learn.hashicorp.com/tutorials/terraform/gke)
+- [helm_release resource](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release)
+- [Recommended Labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/)
+- [dynamic Blocks](https://www.terraform.io/language/expressions/dynamic-blocks)
+- [Setting up a Google-managed certificate](https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs#setting_up_a_google-managed_certificate)
+- [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+- [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+- [google_dns_managed_zone resource](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_managed_zone)

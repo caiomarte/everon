@@ -1,9 +1,3 @@
-# References:
-# Backend Types - GCS (https://www.terraform.io/language/settings/backends/gcs)
-# Google Provider Configuration Reference (https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#configuration-reference)
-# Kubernetes Provider (https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs)
-# Helm Provider (https://registry.terraform.io/providers/hashicorp/helm/latest/docs)
-
 terraform {
   required_providers {
     google = {
@@ -25,7 +19,7 @@ terraform {
   backend "gcs" {
     bucket      = "devops-assignment"
     credentials = "credentials.json"
-    prefix      = "caio-martinho"
+    prefix      = "caio"
   }
 }
 
@@ -37,19 +31,19 @@ provider "google" {
 }
 
 #provider "kubernetes" {
-#  host  = "https://${google_container_cluster.cluster.endpoint}"
+#  host  = "https://${module.cluster.endpoint}"
 #  token = data.google_client_config.provider.access_token
 #  cluster_ca_certificate = base64decode(
-#    google_container_cluster.cluster.master_auth[0].cluster_ca_certificate,
+#    module.cluster.ca_certificate
 #  )
 #}
 
 #provider "helm" {
 #  kubernetes {
-#    host  = "https://${google_container_cluster.cluster.endpoint}"
+#    host  = "https://${module.cluster.endpoint}"
 #    token = data.google_client_config.provider.access_token
 #    cluster_ca_certificate = base64decode(
-#      google_container_cluster.cluster.master_auth[0].cluster_ca_certificate,
+#      module.cluster.ca_certificate
 #    )
 #  }
 #}

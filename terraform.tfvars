@@ -14,10 +14,10 @@ ip_ranges = {
 
 # CLUSTER
 cluster_resources = {
-  cpu_min    = 200
-  cpu_max    = 600
-  memory_min = 200
-  memory_max = 600
+  cpu_min    = 50
+  cpu_max    = 100
+  memory_min = 250
+  memory_max = 500
 }
 
 # CLUSTER NODE POOL
@@ -43,6 +43,6 @@ node_image   = "COS_CONTAINERD"
 application = {
   image    = "hello"
   repo     = "nginxdemos"
-  port     = 3000
+  port     = 80
   replicas = 3
 }
