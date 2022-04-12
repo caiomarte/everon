@@ -58,6 +58,8 @@ module "everon" {
 |------|-------------|
 | `endpoint` | The IP address of the GKE cluster's Kubernetes master. |
 | `link` | The server-defined URL for the GKE cluster. |
+| `dns` | The name of the Cloud DNS managed zone for the GKE's cluster. |
+| `record` | The name of the Cloud DNS record set for the GKE's cluster. |
 
 ---
 

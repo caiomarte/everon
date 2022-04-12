@@ -6,7 +6,7 @@ locals {
     replicas  = var.application.replicas
     port      = var.application.port
     address   = var.cluster_endpoint
-    manager   = "Terraform"
+    manager   = "terraform"
     author    = "${lower(var.author.name)}-${lower(var.author.surname)}"
   }
 }

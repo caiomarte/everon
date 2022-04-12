@@ -37,6 +37,12 @@ module "application" {
 }
 ```
 
+### Outputs
+| Name | Description |
+|------|-------------|
+| `dns` | The name of the Cloud DNS managed zone for the GKE's cluster. |
+| `record` | The name of the Cloud DNS record set for the GKE's cluster. |
+
 ---
 
 ## References

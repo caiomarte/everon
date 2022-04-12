@@ -30,20 +30,20 @@ provider "google" {
   credentials = file("credentials.json")
 }
 
-#provider "kubernetes" {
-#  host  = "https://${module.cluster.endpoint}"
-#  token = data.google_client_config.provider.access_token
-#  cluster_ca_certificate = base64decode(
-#    module.cluster.ca_certificate
-#  )
-#}
+provider "kubernetes" {
+  host  = "https://${module.cluster.endpoint}"
+  token = data.google_client_config.provider.access_token
+  cluster_ca_certificate = base64decode(
+    module.cluster.ca_certificate
+  )
+}
 
-#provider "helm" {
-#  kubernetes {
-#    host  = "https://${module.cluster.endpoint}"
-#    token = data.google_client_config.provider.access_token
-#    cluster_ca_certificate = base64decode(
-#      module.cluster.ca_certificate
-#    )
-#  }
-#}
+provider "helm" {
+  kubernetes {
+    host  = "https://${module.cluster.endpoint}"
+    token = data.google_client_config.provider.access_token
+    cluster_ca_certificate = base64decode(
+      module.cluster.ca_certificate
+    )
+  }
+}

@@ -2,7 +2,7 @@ apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
   name: "{{ .Values.name }}-certificate"
-  namespace: "{{ .Values.name }}-namespace"
+  namespace: "{{ .Values.namespace }}"
 spec:
   domains:
     - {{ .Values.domain }}

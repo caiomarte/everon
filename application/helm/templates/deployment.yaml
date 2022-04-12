@@ -2,9 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "{{ .Values.name }}-deployment"
-  namespace: "{{ .Values.name }}-namespace"
+  namespace: "{{ .Values.namespace }}"
   labels:
     app: {{ .Values.name }}
+    app.kubernetes.io/name: {{ .Values.name }}
+    app.kubernetes.io/managed-by: {{ .Values.manager }}
+    app.kubernetes.io/created-by: {{ .Values.author }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:

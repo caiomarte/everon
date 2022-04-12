@@ -43,6 +43,6 @@ node_image   = "COS_CONTAINERD"
 application = {
   image    = "hello"
   repo     = "nginxdemos"
-  port     = 80
+  port     = 8080
   replicas = 3
 }
