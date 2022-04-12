@@ -1,11 +1,4 @@
 # GLOBAL
-author = {
-  name    = "Caio"
-  surname = "Martinho"
-  email   = "caiomartesilva@gmail.com"
-  ip      = "189.0.90.112/32"
-}
-
 project    = "evbox-infrastructure"
 region     = "europe-west-1"
 zone       = "europe-west1-d"

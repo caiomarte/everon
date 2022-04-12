@@ -10,7 +10,7 @@
 # Provision a GKE Cluster (Google Cloud) - https://learn.hashicorp.com/tutorials/terraform/gke
 
 resource "google_container_cluster" "cluster" {
-  name                     = "${lower(var.author.name)}-cluster"
+  name                     = "cluster"
   description              = "${title(var.author.name)}'s zonal, VPC-native cluster."
   location                 = var.zone
   remove_default_node_pool = true
@@ -18,16 +18,16 @@ resource "google_container_cluster" "cluster" {
   network                  = var.network
   subnetwork               = var.subnetwork
 
-  dns_config {
-    cluster_dns        = "CLOUD_DNS"
-    cluster_dns_scope  = "CLUSTER_SCOPE"
-    cluster_dns_domain = google_dns_managed_zone.zone.dns_name
+  networking_mode = "VPC_NATIVE"
+  ip_allocation_policy {
+    cluster_ipv4_cidr_block  = var.ip_ranges.pods
+    services_ipv4_cidr_block = var.ip_ranges.services
   }
 
-  #networking_mode          = "VPC_NATIVE"
-  #ip_allocation_policy {
-  #  cluster_ipv4_cidr_block  = var.ip_ranges.pods
-  #  services_ipv4_cidr_block = var.ip_ranges.services
+  #dns_config {
+  #  cluster_dns        = "CLOUD_DNS"
+  #  cluster_dns_scope  = "CLUSTER_SCOPE"
+  #  cluster_dns_domain = google_dns_managed_zone.zone.dns_name
   #}
 
   #private_cluster_config {

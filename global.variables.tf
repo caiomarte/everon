@@ -1,11 +1,15 @@
 variable "author" {
-  description = "Author's signature. Cannot be changed."
+  description = "Author's signature. Cannot be changed. Defaults to {name='Caio' surname='Martinho' email='caiomartesilva@gmail.com'}"
   type = object({
     name    = string
     surname = string
     email   = string
-    ip      = string
   })
+  default = {
+    name    = "Caio"
+    surname = "Martinho"
+    email   = "caiomartesilva@gmail.com"
+  }
 
   validation {
     condition     = title(var.author.name) == "Caio" && title(var.author.surname) == "Martinho" && lower(var.author.email) == "caiomartesilva@gmail.com"
@@ -14,27 +18,27 @@ variable "author" {
 }
 
 variable "project" {
-  description = "Default GCP project resources are associated with. Defaults to 'evbox-infrastructure'."
+  description = "Default GCP project resources are associated with."
   type        = string
 }
 
 variable "region" {
-  description = "Default location regional resources are deployed to. Defaults to 'europe-west1'."
+  description = "Default location regional resources are deployed to."
   type        = string
 }
 
 variable "zone" {
-  description = "Default location zonal resources are deployed to. Defaults to 'europe-west1-d'."
+  description = "Default location zonal resources are deployed to."
   type        = string
 }
 
 variable "network" {
-  description = "Default VPC resources are deployed to. Defaults to 'default'."
+  description = "Default VPC resources are deployed to."
   type        = string
 }
 
 variable "subnetwork" {
-  description = "Default VPC subnetwork resources are deployed to. Defaults to 'default'."
+  description = "Default VPC subnetwork resources are deployed to."
   type        = string
 }
 

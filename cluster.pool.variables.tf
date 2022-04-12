@@ -1,13 +1,13 @@
 variable "node_count" {
-  description = "Minimum and maximum node count for the cluster's node pool. Minimum count must be >= 0 and <= maximum count. Defaults to {min=1 max=1}."
+  description = "Minimum and maximum node count for the cluster's node pool. Minimum count must be >= 0 and <= maximum count. Defaults to {min=3 max=4}."
   type = object({
     min = number
     max = number
   })
 
   default = {
-    min = 1
-    max = 1
+    min = 3
+    max = 4
   }
 
   validation {
@@ -17,15 +17,15 @@ variable "node_count" {
 }
 
 variable "node_availability" {
-  description = "Maximum surge and unavailable count for the cluster's node pool. Both must be >=0, at least one must be >0, and the sum must be <=20. Defaults to {surge=1 unavailable=0}."
+  description = "Maximum surge and unavailable count for the cluster's node pool. Both must be >=0, at least one must be >0, and the sum must be <=20. Defaults to {surge=3 unavailable=1}."
   type = object({
     surge       = number
     unavailable = number
   })
 
   default = {
-    surge       = 1
-    unavailable = 0
+    surge       = 3
+    unavailable = 1
   }
 
   validation {
@@ -35,7 +35,7 @@ variable "node_availability" {
 }
 
 variable "node_disk" {
-  description = "Type and size of the disk attached to each node. Type must be either 'pd-standard', 'pd-balanced', or 'pd-ssd'. Size must be >= 10, specified in GB. Defaults to {type='pd-standard' size=10}."
+  description = "Type and size of the disk attached to each node. Type must be either 'pd-standard', 'pd-balanced', or 'pd-ssd'. Size must be >= 10, specified in GB. Defaults to {type='pd-standard' size=500}."
   type = object({
     type = string
     size = number
@@ -43,7 +43,7 @@ variable "node_disk" {
 
   default = {
     type = "pd-standard"
-    size = 10
+    size = 500
   }
 
   validation {
