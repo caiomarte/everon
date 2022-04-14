@@ -3,6 +3,11 @@ output "endpoint" {
   value       = google_container_cluster.cluster.endpoint
 }
 
+output "services_cidr" {
+  description = "The IP address CIDR block for Kubernetes services in the GKE cluster."
+  value       = google_container_cluster.cluster.services_ipv4_cidr
+}
+
 output "link" {
   description = "The server-defined URL for the GKE cluster."
   value       = google_container_cluster.cluster.self_link

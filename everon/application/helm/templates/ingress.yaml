@@ -4,8 +4,8 @@ metadata:
   name: "{{ .Values.name }}-ingress"
   namespace: "{{ .Values.namespace }}"
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: {{ .Values.address }}
-    networking.gke.io/managed-certificates: "{{ .Values.name }}-certificate"
+    #kubernetes.io/ingress.global-static-ip-name: {{ .Values.address }}
+    #networking.gke.io/managed-certificates: "{{ .Values.name }}-certificate"
     kubernetes.io/ingress.class: "gce"
 spec:
   defaultBackend:

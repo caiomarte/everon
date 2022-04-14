@@ -6,9 +6,9 @@ metadata:
 spec:
   selector:
     app: {{ .Values.name }}
-  type: NodePort
+  type: LoadBalancer
   ports:
-   -  protocol: TCP
-      port: 80
-      targetPort: {{ .Values.port }}
+  - protocol: TCP
+    port: {{ .Values.port }}
+    targetPort: {{ .Values.port }}
 

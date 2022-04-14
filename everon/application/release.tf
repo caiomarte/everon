@@ -15,3 +15,14 @@ resource "helm_release" "hello" {
     }
   }
 }
+
+data "kubernetes_service" "service" {
+  metadata {
+    name = "${local.values["name"]}-service"
+    namespace = local.values["namespace"]
+  }
+
+  depends_on = [
+    helm_release.hello
+  ]
+}

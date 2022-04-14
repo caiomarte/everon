@@ -7,8 +7,7 @@ This Terraform module deploys
 
 ---
 
-## Usage
-### Input Variables
+## Input Variables
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|----------|
 | `project` | Default GCP project resources are associated with. | `string` | N/A | <span style="color: red">Required</span> |
@@ -25,7 +24,7 @@ This Terraform module deploys
 | `node_image` | Default image type for the cluster's node pool. Must be either `"COS_CONTAINERD"` or `"UBUNTU_CONTAINERD"`. | `string` | `"COS_CONTAINERD"` | <span style="color: green">Optional</span> |
 | `application` | Application's Docker image name, source repository, version, port number, and replica count. | `object({`<br />`image=string`<br />`repo=string`<br />` version=string`<br />`port=number`<br />`replicas=number`<br />`})` | N/A | <span style="color: red">Required</span> |
 
-### Example
+## Usage example
 ```hlc
 module "everon" {
   source = "./everon"
@@ -53,25 +52,32 @@ module "everon" {
 }
 ```
 
-### Outputs
+### Output values
 | Name | Description |
 |------|-------------|
-| `endpoint` | The IP address of the GKE cluster's Kubernetes master. |
-| `link` | The server-defined URL for the GKE cluster. |
-| `dns` | The name of the Cloud DNS managed zone for the GKE's cluster. |
-| `record` | The name of the Cloud DNS record set for the GKE's cluster. |
+| `application_endpoint` | The public endpoint to access the Kubernetes service in the GKE Cluster. |
+| `application_url` | The URL to access the Kubernetes service in the GKE Cluster. |
 
 ---
 
 ## Check resources
 1. Authenticate into Google Cloud
+
 `gcloud auth activate-service-account --key-file="credentials.json"`
 
 2. Authenticate into the GKE Cluster
+
 `gcloud container clusters get-credentials cluster --zone europe-west1-d --project evbox-infrastructure`
 
-3. List pods, services, and replica sets
-`kubectl get pods,sv,rs --namespace=${application_name}-namespace`
+3. Check pods, services, replica sets, ingress, and configmap
+
+`kubectl get pods,services,rs,ingress,configmap --namespace=nginx-namespace`
+
+4. Check service endpoint
+
+`kubectl describe services nginx-service --namespace=nginx-namespace`
+
+---
 
 ## References
 - [Backend Types - GCS](https://www.terraform.io/language/settings/backends/gcs)

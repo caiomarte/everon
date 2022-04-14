@@ -30,3 +30,10 @@ spec:
         ports:
         - containerPort: {{ .Values.port }}
           protocol: TCP
+        volumeMounts:
+          - name: index-file
+            mountPath: /usr/share/nginx/html/
+      volumes:
+      - name: index-file
+        configMap:
+          name: "{{ .Values.name }}-configmap"

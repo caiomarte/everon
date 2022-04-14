@@ -5,8 +5,7 @@ This Terraform module deploys
 
 ---
 
-## Usage
-### Input Variables
+## Input Variables
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|----------|
 | `project` | Default GCP project resources are associated with. | `string` | N/A | <span style="color: red">Required</span> |
@@ -22,7 +21,7 @@ This Terraform module deploys
 | `node_machine` | Default Google Compute Engine machine type for the cluster's node pool. Check [About machine families](https://cloud.google.com/compute/docs/machine-types) for valid machine types. | `string` | `"e2-medium"` | <span style="color: green">Optional</span> |
 | `node_image` | Default image type for the cluster's node pool. Must be either `"COS_CONTAINERD"` or `"UBUNTU_CONTAINERD"`. | `string` | `"COS_CONTAINERD"` | <span style="color: green">Optional</span> |
 
-### Example
+## Usage example
 ```hlc
 module "cluster" {
   source = "./cluster"
@@ -47,7 +46,7 @@ module "cluster" {
 }
 ```
 
-### Outputs
+## Outputs= values
 | Name | Description |
 |------|-------------|
 | `endpoint` | The IP address of the GKE cluster's Kubernetes master. |

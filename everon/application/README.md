@@ -39,20 +39,27 @@ module "application" {
 ## Output values
 | Name | Description |
 |------|-------------|
-| `dns` | The name of the Cloud DNS managed zone for the GKE's cluster. |
-| `record` | The name of the Cloud DNS record set for the GKE's cluster. |
+| `application_endpoint` | The public endpoint to access the Kubernetes service in the GKE Cluster. |
+| `application_url` | The URL to access the Kubernetes service in the GKE Cluster. |
 
 ---
 
 ## Check resources
 1. Authenticate into Google Cloud
+
 `gcloud auth activate-service-account --key-file="credentials.json"`
 
 2. Authenticate into the GKE Cluster
+
 `gcloud container clusters get-credentials cluster --zone europe-west1-d --project evbox-infrastructure`
 
-3. Check pods, services, and replica sets
-`kubectl get pods,sv,rs --namespace=nginx-namespace`
+3. Check pods, services, replica sets, ingress, and configmap
+
+`kubectl get pods,services,rs,ingress,configmap --namespace=nginx-namespace`
+
+4. Check service endpoint
+
+`kubectl describe services nginx-service --namespace=nginx-namespace`
 
 ---
 
