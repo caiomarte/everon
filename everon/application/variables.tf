@@ -42,6 +42,11 @@ variable "subnetwork" {
   type        = string
 }
 
+variable "dns_zone" {
+  description = "The DNS zone to use to expose Kubernetes services in the GKE Cluster."
+  type = string
+}
+
 variable "ip_ranges" {
   description = "CIDR blocks for VPC subnetwork, pods, services, and cluster master, one for each. They cannot overlap. Cluster master's must be /28. Defaults to {network='10.10.0.0/16' pods='10.30.0.0/16' services='10.50.0.0/16' master='10.70.0.0/28'}."
   type = object({

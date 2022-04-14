@@ -38,7 +38,9 @@ resource "google_container_node_pool" "node_pool" {
       mode = "GCE_METADATA"
     }
 
-    tags = local.tags
+    tags = [
+      "${lower(var.author.name)}-${lower(var.author.surname)}"
+    ]
   }
 
   upgrade_settings {

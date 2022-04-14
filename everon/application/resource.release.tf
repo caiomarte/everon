@@ -1,3 +1,18 @@
+locals {
+  values = {
+    name      = var.application.image
+    image     = var.application.image
+    version   = var.application.version
+    namespace = "${var.application.image}-namespace"
+    replicas  = var.application.replicas
+    port      = var.application.port
+    address   = var.cluster_endpoint
+    domain    = var.dns_zone
+    manager   = "terraform"
+    author    = "${lower(var.author.name)}-${lower(var.author.surname)}"
+  }
+}
+
 resource "helm_release" "hello" {
   name             = local.values["name"]
   description      = "${title(var.author.name)}'s Helm Chart for the ${local.values["image"]} image."

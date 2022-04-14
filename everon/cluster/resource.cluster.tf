@@ -22,6 +22,12 @@ resource "google_container_cluster" "cluster" {
     }
   }
 
+  dns_config {
+    cluster_dns = "CLOUD_DNS"
+    cluster_dns_scope = "VPC_SCOPE"
+    cluster_dns_domain = var.dns_zone
+  }
+
   enable_intranode_visibility = true
   logging_config {
     enable_components = [

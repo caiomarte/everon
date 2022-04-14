@@ -1,9 +1,9 @@
-# GLOBAL
 project    = "evbox-infrastructure"
 region     = "europe-west-1"
 zone       = "europe-west1-d"
 network    = "default"
 subnetwork = "default"
+dns_zone = "devops-assignment.everon.io"
 
 ip_ranges = {
   network  = "10.10.0.0/16"
