@@ -31,7 +31,7 @@ resource "helm_release" "hello" {
   }
 }
 
-data "kubernetes_service" "service" {
+data "kubernetes_service" "hello" {
   metadata {
     name = "${local.values["name"]}-service"
     namespace = local.values["namespace"]
