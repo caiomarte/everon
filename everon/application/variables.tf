@@ -68,8 +68,3 @@ variable "ip_ranges" {
     error_message = "Invalid. Must be 4 valid CIDR blocks that DO NOT overlap. Cluster master's must be /28. E.g. {network='10.10.0.0/16' pods='10.30.0.0/16' services='10.50.0.0/16' master='10.70.0.0/28'}."
   }
 }
-
-variable "cluster_endpoint" {
-  description = "The IP address of the GKE cluster's Kubernetes master."
-  type = string
-}
