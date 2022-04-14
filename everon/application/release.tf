@@ -4,7 +4,6 @@ resource "helm_release" "hello" {
   chart            = "./application/helm"
   namespace        = local.values["namespace"]
   create_namespace = true
-  reset_values     = true
   cleanup_on_fail  = true
   atomic           = true
 

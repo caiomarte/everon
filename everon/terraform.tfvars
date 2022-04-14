@@ -41,9 +41,9 @@ node_image   = "COS_CONTAINERD"
 
 # APPLICATION
 application = {
-  image    = "hello"
-  repo     = "nginxdemos"
+  image    = "nginx"
+  tag     = "1.21.6-alpine"
   version  = "0.3"
-  port     = 8080
+  port     = 80
   replicas = 3
 }

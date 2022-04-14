@@ -7,7 +7,7 @@ locals {
     replicas  = var.application.replicas
     port      = var.application.port
     address   = var.cluster_endpoint
-    domain    = trimsuffix(google_dns_managed_zone.zone.dns_name, ".")
+    domain    = local.dns_zone
     manager   = "terraform"
     author    = "${lower(var.author.name)}-${lower(var.author.surname)}"
   }

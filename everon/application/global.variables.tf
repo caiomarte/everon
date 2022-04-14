@@ -66,4 +66,5 @@ variable "ip_ranges" {
 
 variable "cluster_endpoint" {
   description = "The IP address of the GKE cluster's Kubernetes master."
+  type = string
 }
