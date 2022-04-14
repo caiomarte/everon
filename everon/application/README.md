@@ -5,8 +5,7 @@ This Terraform module deploys
 
 ---
 
-## Usage
-### Input Variables
+## Input Variables
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|----------|
 | `project` | Default GCP project resources are associated with. | `string` | N/A | <span style="color: red">Required</span> |
@@ -18,7 +17,7 @@ This Terraform module deploys
 | `cluster_endpoint` | The IP address of the GKE cluster's Kubernetes master. | `string` | N/A | <span style="color: red">Required</span> |
 | `application` | Application's Docker image name, source repository, version, port number, and replica count. | `object({`<br />`image=string`<br />`repo=string`<br />` version=string`<br />`port=number`<br />`replicas=number`<br />`})` | N/A | <span style="color: red">Required</span> |
 
-### Example
+## Usage example
 ```hlc
 module "application" {
   source = "./application"
@@ -37,11 +36,23 @@ module "application" {
 }
 ```
 
-### Outputs
+## Output values
 | Name | Description |
 |------|-------------|
 | `dns` | The name of the Cloud DNS managed zone for the GKE's cluster. |
 | `record` | The name of the Cloud DNS record set for the GKE's cluster. |
+
+---
+
+## Check resources
+1. Authenticate into Google Cloud
+`gcloud auth activate-service-account --key-file="credentials.json"`
+
+2. Authenticate into the GKE Cluster
+`gcloud container clusters get-credentials cluster --zone europe-west1-d --project evbox-infrastructure`
+
+3. Check pods, services, and replica sets
+`kubectl get pods,sv,rs --namespace=nginx-namespace`
 
 ---
 

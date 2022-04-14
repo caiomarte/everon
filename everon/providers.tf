@@ -47,3 +47,5 @@ provider "helm" {
     )
   }
 }
+
+data "google_client_config" "provider" {}

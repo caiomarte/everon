@@ -63,6 +63,16 @@ module "everon" {
 
 ---
 
+## Check resources
+1. Authenticate into Google Cloud
+`gcloud auth activate-service-account --key-file="credentials.json"`
+
+2. Authenticate into the GKE Cluster
+`gcloud container clusters get-credentials cluster --zone europe-west1-d --project evbox-infrastructure`
+
+3. List pods, services, and replica sets
+`kubectl get pods,sv,rs --namespace=${application_name}-namespace`
+
 ## References
 - [Backend Types - GCS](https://www.terraform.io/language/settings/backends/gcs)
 - [Google Provider Configuration Reference](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#configuration-reference)
