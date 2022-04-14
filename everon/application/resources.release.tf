@@ -15,7 +15,7 @@ locals {
 resource "helm_release" "hello" {
   name             = local.values["name"]
   description      = "${title(var.author.name)}'s Helm Chart for the ${local.values["image"]} image."
-  chart            = "./application/helm"
+  chart            = "./application/nginx"
   namespace        = local.values["namespace"]
   create_namespace = true
   cleanup_on_fail  = true
